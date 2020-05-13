@@ -1,0 +1,102 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: Said
+  Date: 004. 04.04.2020
+  Time: 17:35
+  To change this template use File | Settings | File Templates.
+-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<table class="text-center border-secondary container-xl bg-gradient-light text-dark" border="2">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th>Цвет ногтей</th>
+        <td>Login</td>
+        <td>Пароль</td>
+        <td>Роли</td>
+        <th>Действие</th>
+    </tr>
+    <div th:with="user=${user}">
+        <form method="post" action="/admin/doEdit">
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="id" required th:value="${user.id}">
+            </td>
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="name" required th:value="${user.name}">
+            </td>
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="lastName" required th:value="${user.lastName}">
+            </td>
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="age" required th:value="${user.age}">
+            </td>
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="nailsColor" required th:value="${user.nailsColor}">
+            </td>
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="login" required th:value="${user.login}">
+            </td>
+            <td>
+                <input class="text-center pr-5 pl-5" type="text" name="password">
+            </td>
+            <td>
+                <label>User</label>
+                <input type="checkbox" name="useRole" value="USER" th:each="role : ${user.roles}" th:checked="${role.name.equalsIgnoreCase('user')}"
+                />
+                <label>Admin</label>
+                <input type="checkbox" name="useRole" value="ADMIN"  th:each="role : ${user.roles}" th:checked="${role.name.equalsIgnoreCase('admin')}"
+                />
+            </td>
+<!--            <td>
+                <label>User</label>
+                <input type="checkbox" name="useRole" value="USER" <c:forEach var="role" items="${user.roles}">
+                    <c:if test="${role.name.equalsIgnoreCase('user')}">
+                        checked="checked"
+                    </c:if>
+                </c:forEach>/>
+                <label>Admin</label>
+                <input type="checkbox" name="useRole" value="ADMIN"  <c:forEach var="role" items="${user.roles}">
+                    <c:if test="${role.name.equalsIgnoreCase('admin')}">
+                        checked="checked"
+                    </c:if>
+                </c:forEach>/>
+            </td>
+    <%&#45;&#45;        <td>
+
+                <label>User</label>
+                <input type="checkbox" name="useRole" value="USER" <c:forEach var="role" items="${user.roles}">
+                    <c:choose>
+                        <c:when test="${role.name eq 'USER'}">
+                            checked="checked"
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
+                />
+                <label>Admin</label>
+                <input type="checkbox" name="useRole" value="ADMIN"  <c:forEach var="role" items="${user.roles}">
+                    <c:choose>
+                        <c:when test="${role.name eq 'ADMIN'}">
+                            checked="checked"
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
+                />
+            </td>&#45;&#45;%>-->
+            <td>
+                <button class="d-inline pr-5 pl-5 bg-info text-white" type="submit" name="addbtn">Изменить</button>
+            </td>
+        </form>
+    </div>
+    <a href="/logout">Выход</a>
+</table>
+</body>
+</html>

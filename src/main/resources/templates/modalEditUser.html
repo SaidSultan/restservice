@@ -1,0 +1,110 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <form method="post" id="editUserForm">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--start-->
+                <div class="form-group">
+
+                    <label for="edit_id"  class="d-flex justify-content-center"><b>ID:</b></label>
+                    <input id="edit_id"   class="form-control col-6 mx-auto" type="text" name="id" required >
+
+                    <label for="edit_name" class="d-flex justify-content-center"><b>Имя:</b></label>
+                    <input id="edit_name" class="form-control col-6 mx-auto" type="text" name="name" required >
+
+                    <label for="edit_lastName" class="d-flex justify-content-center"><b>Фамилия:</b></label>
+                    <input id="edit_lastName" class="form-control col-6 mx-auto" type="text" name="lastName" required >
+
+                    <label for="edit_age" class="d-flex justify-content-center"><b>Возраст:</b></label>
+                    <input id="edit_age" class="form-control col-6 mx-auto" type="text" name="age" required >
+
+                    <label for="edit_nail" class="d-flex justify-content-center"><b>Цвет:</b></label>
+                    <input id="edit_nail" class="form-control col-6 mx-auto" type="text" name="nailsColor" required >
+
+                    <label for="edit_login" class="d-flex justify-content-center"><b>Логин:</b></label>
+                    <input id="edit_login" class="form-control col-6 mx-auto" type="text" name="login" required >
+
+                    <label for="edit_password" class="d-flex justify-content-center"><b>Пароль:</b></label>
+                    <input id="edit_password" class="form-control col-6 mx-auto" type="text" name="password">
+
+                    <!--                                                <label for="user">User</label>
+                                                                    <input id="user" type="checkbox" name="useRole" value="USER" th:each="role : ${user.roles}" th:checked="${role.name.equalsIgnoreCase('user')}"
+                                                                    /><br>
+                                                                    <label for="admin">Admin</label>
+                                                                    <input id="admin" type="checkbox" name="useRole" value="ADMIN"  th:each="role : ${user.roles}" th:checked="${role.name.equalsIgnoreCase('admin')}"
+                                                                    /><br>-->
+ <!--                   <label class="d-flex justify-content-center"><b>Role</b></label>
+                    <div th:with="expr_result = ${#lists.size(userInfo.roles) > 1}" class="col-6 mx-auto">
+                        <div th:if="${expr_result}">
+                            <select class="custom-select" multiple name="useRole"  size="2">
+                                <option  value="ADMIN" th:each="role, stat : ${userInfo.roles}" th:if="${userInfo.roles[__${stat.index}__].name.equalsIgnoreCase('admin')}" selected>ADMIN</option>
+                                <option  value="USER" th:each="role, stat : ${userInfo.roles}"  th:if="${userInfo.roles[__${stat.index}__].name.equalsIgnoreCase('user')}" selected>USER</option>
+                            </select>
+                        </div>
+                        <div th:unless="${expr_result}">
+                            <select class="custom-select" multiple name="useRole" size="2">
+                                <option  value="ADMIN" th:each="role : ${userInfo.roles}" th:selected="${role.name.equalsIgnoreCase('admin')}">ADMIN</option>
+                                <option  value="USER" th:each="role : ${userInfo.roles}" th:selected="${role.name.equalsIgnoreCase('user')}">USER</option>
+                            </select>
+                        </div>
+                    </div>-->
+                    <!--                                                <select class="custom-select" multiple name="useRole" th:object="${user}">
+                                                                        <option  value="ADMIN" th:each="role, stat : *{roles}" th:selected="*{roles[__${stat.index}__].name.equalsIgnoreCase('admin')}">ADMIN</option>
+                                                                        <option  value="USER" th:each="role, stat : *{roles}"  th:selected="*{roles[__${stat.index}__].name.equalsIgnoreCase('user')}">USER</option>
+                                                                    </select>-->
+                    <!--<select class="custom-select" multiple name="useRole">
+                        <option  value="ADMIN" th:each="role : ${user.roles}" th:selected="${role.name.equalsIgnoreCase('admin')}">ADMIN</option>
+                        <option  value="USER" th:each="role : ${user.roles}" th:selected="${role.name.equalsIgnoreCase('user')}">USER</option>
+                    </select>-->
+
+
+                    <!--<button class="d-inline pr-5 pl-5 bg-info text-white" type="submit" name="addbtn">Изменить</button>-->
+
+
+                </div>
+
+                <!--end-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEdit">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#btnEdit").click(function () {
+        $.ajax({
+           url:"/doEdit",
+            data:$("#editUserForm").serialize(),
+            type:"POST",
+            success: function(content) {
+                $("#usersTable").html(content);
+                $("#myModal").modal("hide");
+           }
+        });
+    });
+    $(document).ready(function () {
+        let url = `rest/${$("#myModal").data("userId")}`;
+        console.log($("#myModal").data("userId"));
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(data) {
+                console.log(data);
+                $('#edit_id').val(data.id);
+                $('#edit_name').append(data.name);
+                $('#edit_lastName').append(data.lastName);
+                $('#edit_age').append(data.age);
+                $('#edit_nail').append(data.nailsColor);
+                $('#edit_login').append(data.login);
+                $('#edit_password').append(data.login);
+            }
+        });
+    });
+</script>
